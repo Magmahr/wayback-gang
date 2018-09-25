@@ -1,16 +1,20 @@
 class Api::V1::FetchesController < ApplicationController
+  require 'wikipedia'
 
   def index
-    @fetches = Fetch.all
-    render json: @fetches
+    page = Wikipedia.find( 'Napoleon' )
+    response = page.summary.to_json
+    image = page.image_urls
+    both = [image, response]
+    # @fetches = Fetch.all
+    render json: both
   end
 
   # def create
-  #   # require 'wikipedia'
-  #   # page = Wikipedia.find( 'Napoleon' )
-  #   @fetch = Fetch.new($Summary)
-  #   @fetch.save
+  #   page = Wikipedia.find( 'Napoleon' )
   #   byebug
+  #   # @fetch = Fetch.new($Summary)
+  #   # @fetch.save
   #
   #   render json: @fetch
   # end
